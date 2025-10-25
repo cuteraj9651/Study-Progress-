@@ -1,0 +1,963 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Study Schedule - Government Polytechnic Ghosi Mau</title>
+    <meta name="google-adsense-account" content="ca-app-pub-4615523830375296~9905025774">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            padding: 25px;
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eaeaea;
+            position: relative;
+        }
+        
+        .college-name {
+            font-size: 1.5rem;
+            color: #2c3e50;
+            font-weight: 600;
+        }
+        
+        .menu-container {
+            position: relative;
+        }
+        
+        .menu-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #2c3e50;
+            padding: 5px 10px;
+        }
+        
+        .menu-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            background-color: white;
+            min-width: 200px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+            border-radius: 5px;
+            z-index: 1;
+            padding: 10px;
+        }
+        
+        .menu-content p {
+            padding: 8px 12px;
+            color: #2c3e50;
+            font-weight: 500;
+        }
+        
+        .menu-container:hover .menu-content {
+            display: block;
+        }
+        
+        .app-title {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        
+        .date-range {
+            color: #7f8c8d;
+            font-size: 1.1rem;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        
+        .subjects-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+        
+        .subject-card {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 15px;
+            flex: 1;
+            margin: 0 10px;
+            min-width: 200px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .subject-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .subject-card:nth-child(1) {
+            border-left: 4px solid #3498db;
+        }
+        
+        .subject-card:nth-child(2) {
+            border-left: 4px solid #2ecc71;
+        }
+        
+        .subject-card:nth-child(3) {
+            border-left: 4px solid #e74c3c;
+        }
+        
+        .subject-name {
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: #2c3e50;
+        }
+        
+        .subject-hours {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+        
+        .units-container {
+            display: none;
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+        
+        .unit {
+            margin-bottom: 15px;
+            padding: 10px;
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            cursor: pointer;
+        }
+        
+        .unit-title {
+            font-weight: 600;
+            color: #2c3e50;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .unit-content {
+            display: none;
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+        }
+        
+        .topics-list {
+            list-style-type: none;
+            padding-left: 15px;
+        }
+        
+        .topics-list li {
+            margin-bottom: 8px;
+            padding-left: 10px;
+            position: relative;
+        }
+        
+        .topics-list li:before {
+            content: "•";
+            color: #3498db;
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+        
+        .update-btn {
+            display: block;
+            margin: 15px auto;
+            padding: 8px 20px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background-color 0.3s;
+        }
+        
+        .update-btn:hover {
+            background-color: #2980b9;
+        }
+        
+        .calendar {
+            overflow-x: auto;
+            margin-top: 30px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        
+        th {
+            background-color: #34495e;
+            color: white;
+            padding: 12px 8px;
+            text-align: center;
+            position: sticky;
+            top: 0;
+        }
+        
+        td {
+            padding: 10px 8px;
+            text-align: center;
+            border-bottom: 1px solid #eaeaea;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        
+        .date-cell {
+            font-weight: 600;
+            color: #2c3e50;
+            min-width: 100px;
+        }
+        
+        .day-cell {
+            color: #7f8c8d;
+        }
+        
+        .checkbox-cell {
+            width: 80px;
+        }
+        
+        input[type="checkbox"] {
+            transform: scale(1.5);
+            cursor: pointer;
+        }
+        
+        .progress-summary {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+        }
+        
+        .progress-title {
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #2c3e50;
+            font-size: 1.2rem;
+        }
+        
+        .progress-bars {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+        
+        .progress-bar-container {
+            flex: 1;
+            margin: 0 10px;
+            min-width: 200px;
+        }
+        
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+        }
+        
+        .progress-bar {
+            height: 20px;
+            background-color: #ecf0f1;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            border-radius: 10px;
+        }
+        
+        .subject-1 .progress-fill {
+            background-color: #3498db;
+        }
+        
+        .subject-2 .progress-fill {
+            background-color: #2ecc71;
+        }
+        
+        .subject-3 .progress-fill {
+            background-color: #e74c3c;
+        }
+        
+        .today {
+            background-color: #fff9e6 !important;
+            font-weight: bold;
+        }
+        
+        /* Ad container styles */
+        .ad-container {
+            margin: 20px 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 50px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 10px;
+            text-align: center;
+        }
+        
+        .ad-placeholder {
+            width: 320px;
+            height: 50px;
+            background-color: #e0e0e0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            font-size: 14px;
+            border: 1px dashed #999;
+        }
+        
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .college-name {
+                margin-bottom: 10px;
+            }
+            
+            .subjects-info, .progress-bars {
+                flex-direction: column;
+            }
+            
+            .subject-card, .progress-bar-container {
+                margin: 10px 0;
+            }
+            
+            th, td {
+                padding: 8px 4px;
+                font-size: 0.85rem;
+            }
+            
+            .date-cell {
+                min-width: 80px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="college-name">Government Polytechnic Ghosi Mau</div>
+            <div class="menu-container">
+                <button class="menu-btn">⋯</button>
+                <div class="menu-content">
+                    <p>Created by: Professional_raj998</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- First Ad Placement -->
+        <div class="ad-container">
+            <div id="ad-container-1">
+                <script async src="https://securepubads.g.doubleclick.net/tag/js/gpt.js"></script>
+                <script>
+                    window.googletag = window.googletag || {cmd: []};
+                    googletag.cmd.push(function() {
+                        googletag.defineSlot('ca-app-pub-4615523830375296/5427010128', [320, 50], 'ad-container-1').addService(googletag.pubads());
+                        googletag.pubads().enableSingleRequest();
+                        googletag.pubads().collapseEmptyDivs();
+                        googletag.enableServices();
+                    });
+                </script>
+            </div>
+        </div>
+        
+        <div class="app-title">
+            <h1>Study Schedule Calendar</h1>
+        </div>
+        <p class="date-range">From Today to November 15th</p>
+        
+        <div class="subjects-info">
+            <div class="subject-card" data-subject="1">
+                <div class="subject-name">Engineering Machine-I</div>
+                <div class="subject-hours">2 hours daily</div>
+            </div>
+            <div class="subject-card" data-subject="2">
+                <div class="subject-name">Basics of Power Generation System</div>
+                <div class="subject-hours">2 hours daily</div>
+            </div>
+            <div class="subject-card" data-subject="3">
+                <div class="subject-name">Disaster Management</div>
+                <div class="subject-hours">2 hours daily</div>
+            </div>
+        </div>
+        
+        <div id="units-container-1" class="units-container">
+            <h3>Engineering Machine-I - Units</h3>
+            <div class="unit">
+                <div class="unit-title">Unit 1: DC Generator <span>+</span></div>
+                <div class="unit-content">
+                    <ul class="topics-list">
+<li>Construction</li>
+<li>Parts</li>
+<li>Materials</li>
+<li>Functions</li>
+<li>Principle of operation of DC generator</li>
+<li>Fleming's right-hand rule</li>
+<li>Schematic diagrams</li>
+<li>E.m.f. equation of generator</li>
+<li>Armature reaction</li>
+<li>Commutation</li>
+<li>Applications of DC generators</li>
+<li>Importance of DC generators in various industries</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="unit">
+                <div class="unit-title">Unit 2: DC Motor <span>+</span></div>
+                <div class="unit-content">
+                    <ul class="topics-list">
+                        <li>Types of DC motors</li>
+<li>Fleming's left-hand rule</li>
+<li>Principle of operation of Back e.m.f. and its significance</li>
+<li>Voltage equation of DC motor</li>
+<li>Torque and Speed</li>
+<li>Armature torque</li>
+<li>Shaft torque</li>
+<li>BHP</li>
+<li>Brake test</li>
+<li>Losses</li>
+<li>Efficiency</li>
+<li>DC motor starters: Two Point, Three-point and Four Point starters</li>
+<li>Speed control of DC shunt and series motor: Flux and Armature control</li>
+<li>Brushless DC Motor: Construction and working</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="unit">
+                <div class="unit-title">Unit 3: Single Phase transformer <span>+</span></div>
+                <div class="unit-content">
+                    <ul class="topics-list">
+                       <li>Types of transformers: Shell type and core type</li>
+<li>Construction: Parts and functions</li>
+<li>Transformer: Principle of operation</li>
+<li>EMF equation of transformer: Derivation</li>
+<li>Voltage transformation ratio</li>
+<li>Significance of transformer ratings</li>
+<li>Transformer No-load and on-load phasor diagram</li>
+<li>Leakage reactance</li>
+<li>Equivalent circuit of transformer: Equivalent resistance and reactance</li>
+<li>Voltage regulation and Efficiency: Direct loading</li>
+<li>OC/SC method</li>
+<li>All day efficiency</li>
+<li>Polarity tests on single phase transformers</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="unit">
+                <div class="unit-title">Unit 4: Three phase transformer <span>+</span></div>
+                <div class="unit-content">
+                    <ul class="topics-list">
+                      <li>Three Phase Transformers: Construction</li>
+<li>Cooling</li>
+<li>Three-phase transformers connections</li>
+<li>Three-phase to two phase conversion (Scott Connection)</li>
+<li>Parallel operation of three phase transformer</li>
+<li>Comparison between Bank of three single phase transformers & Single unit of three phase transformer</li>
+<li>Transformer accessories: Conservator</li>
+<li>Breather</li>
+<li>Explosion vent</li>
+<li>Buchholz relay</li>
+<li>ON load and OFF load tap changer</li>
+<li>Distribution and Power transformers</li>
+<li>Auto Transformer and its applications</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="unit">
+                <div class="unit-title">Unit 5: Maintenance of DC machine and transformers <span>+</span></div>
+                <div class="unit-content">
+                    <ul class="topics-list">
+<li>Importance of Maintenance: Preventive and Breakdown Maintenance</li>
+<li>Causes of Sparking in Commutator</li>
+<li>Defects in Commutator and Remedies</li>
+<li>Resurfacing of Commutator and Brushes</li>
+<li>Defects in DC Armature winding</li>
+<li>Maintenance of Transformer Oil</li>
+<li>Transformer oil tester</li>
+<li>Acidity test</li>
+<li>BDV test</li>
+<li>Earthing: Measurement of earth resistance</li>
+                    </ul>
+                </div>
+            </div>
+                
+          
+            <button class="update-btn">Check for Update</button>
+        </div>
+        <div id="units-container-2" class="units-container">
+            <h3>Basics of Power Generation System - Units</h3>
+            <div class="unit">
+                <div class="unit-title">Unit 1: Power Plant:Coal,Gas,Diesel and nuclear-based <span>+</span></div>
+                <div class="unit-content">
+                    <ul class="topics-list">
+                      <li>Schematic arrangement of power plant (coal-based, gas-based, diesel-based, nuclear-based)</li>
+<li>Functions of the various types of power plants and their major auxiliaries</li>
+<li>Safe working Practices of various power plants: coal-based, gas-based, diesel-based, nuclear-based</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="unit">
+                <div class="unit-title">Unit 2: Large Hydro Power plant And MHD <span>+</span></div>
+                <div class="unit-content">
+                    <ul class="topics-list">
+                      <li>Hydrology</li>
+<li>Stream flow</li>
+<li>Hydrograph</li>
+<li>Flow duration curves</li>
+<li>Types of hydroelectric plants and their fields of use</li>
+<li>Capacity calculations for hydropower</li>
+<li>Dams</li>
+<li>Head water control</li>
+<li>Penstocks</li>
+<li>Water turbines</li>
+<li>Specific speeds</li>
+<li>Turbine governors</li>
+<li>Hydro plant auxiliaries</li>
+<li>Plant layout</li>
+<li>Concepts and principles of Magneto Hydro Dynamic (MHD) generation</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="unit">
+                <div class="unit-title">Unit 3: Solor and wind power plant  <span>+</span></div>
+                <div class="unit-content">
+                    <ul class="topics-list">
+                      <li>Solar Power Technology</li>
+<li>Concentrated Solar Power (CSP) plants: construction and working</li>
+<li>Power Tower</li>
+<li>Parabolic Trough</li>
+<li>Parabolic Dish</li>
+<li>Fresnel Reflectors</li>
+<li>Solar Photovoltaic (PV) power plant: layout, construction, working</li>
+<li>Wind power density in watts per square meter</li>
+<li>Horizontal and vertical axis large wind power plant</li>
+<li>Geared wind power plant</li>
+<li>Direct-drive wind power plant</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="unit">
+                <div class="unit-title">Unit 4: Other Generation Station <span>+</span></div>
+                <div class="unit-content">
+                    <ul class="topics-list">
+                  <li>Biomass: Biomass conversion technologies</li>
+<li>Methods for obtaining energy from biomass</li>
+<li>Geothermal and Tidal Energy: Geothermal sources and its significance</li>
+<li>Geo-thermal power plant: dry steam, flash steam, and binary cycle</li>
+<li>Tidal energy and its significance</li>
+<li>Different types of tidal power plants: single basin, double basin</li>
+<li>Fuel Cells: Concept, types and principles of fuel cells</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="unit">
+                <div class="unit-title">Unit 5: Economics of Power generation and interconnected Power System  <span>+</span></div>
+                <div class="unit-content">
+                    <ul class="topics-list">
+<li>Related terms: connected load, firm power, cold reserve, hot reserve, spinning reserve</li>
+<li>Base load and peak load plants</li>
+<li>Load curve</li>
+<li>Load duration curve</li>
+<li>Integrated duration curve</li>
+<li>Cost of generation: Average demand, maximum demand, demand factor, plant capacity factor, plant use factor, diversity factor, load factor and plant load factor</li>
+<li>Choice of size and number of generator units</li>
+<li>Combined operation of power station</li>
+<li>Smart Grid</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <button class="update-btn">Check for Update</button>
+        </div>
+        
+        <div id="units-container-3" class="units-container">
+            <h3>Disaster Management - Units</h3>
+            <div class="unit">
+                <div class="unit-title">Unit 1: Introduction to Disasters <span>+</span></div>
+                <div class="unit-content">
+                    <ul class="topics-list">
+                        <li>Definition and classification of disasters</li>
+                        <li>Natural vs. man-made disasters</li>
+                        <li>Vulnerability and risk assessment</li>
+                        <li>Impact of disasters on society</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="unit">
+                <div class="unit-title">Unit 2: Disaster Preparedness <span>+</span></div>
+                <div class="unit-content">
+                    <ul class="topics-list">
+                        <li>Early warning systems</li>
+                        <li>Emergency planning</li>
+                        <li>Community preparedness</li>
+                        <li>Role of technology in disaster management</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="unit">
+                <div class="unit-title">Unit 3: Disaster Response <span>+</span></div>
+                <div class="unit-content">
+                    <ul class="topics-list">
+                        <li>Search and rescue operations</li>
+                        <li>Emergency medical services</li>
+                        <li>Relief measures</li>
+                        <li>Coordination among agencies</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="unit">
+                <div class="unit-title">Unit 4: Recovery and Rehabilitation <span>+</span></div>
+                <div class="unit-content">
+                    <ul class="topics-list">
+                        <li>Post-disaster assessment</li>
+                        <li>Reconstruction and rebuilding</li>
+                        <li>Psychological support</li>
+                        <li>Long-term recovery strategies</li>
+                    </ul>
+                </div>
+            </div>
+            <button class="update-btn">Check for Update</button>
+        </div>
+        
+        <!-- Second Ad Placement -->
+        <div class="ad-container">
+            <div id="ad-container-2">
+                <script>
+                    googletag.cmd.push(function() {
+                        googletag.defineSlot('ca-app-pub-4615523830375296/5427010128', [320, 50], 'ad-container-2').addService(googletag.pubads());
+                    });
+                </script>
+            </div>
+        </div>
+        
+        <div class="calendar">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Day</th>
+                        <th>Engineering Machine</th>
+                        <th>Power Generation System</th>
+                        <th>Disaster Management</th>
+                    </tr>
+                </thead>
+                <tbody id="calendar-body">
+                    <!-- Calendar rows will be generated by JavaScript -->
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- Third Ad Placement -->
+        <div class="ad-container">
+            <div id="ad-container-3">
+                <script>
+                    googletag.cmd.push(function() {
+                        googletag.defineSlot('ca-app-pub-4615523830375296/5427010128', [320, 50], 'ad-container-3').addService(googletag.pubads());
+                    });
+                </script>
+            </div>
+        </div>
+        
+        <div class="progress-summary">
+            <div class="progress-title">Study Progress</div>
+            <div class="progress-bars">
+                <div class="progress-bar-container subject-1">
+                    <div class="progress-label">
+                        <span>Engineering Machine</span>
+                        <span id="progress-subject-1">0%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 0%"></div>
+                    </div>
+                </div>
+                <div class="progress-bar-container subject-2">
+                    <div class="progress-label">
+                        <span>Power Generation System</span>
+                        <span id="progress-subject-2">0%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 0%"></div>
+                    </div>
+                </div>
+                <div class="progress-bar-container subject-3">
+                    <div class="progress-label">
+                        <span>Disaster Management</span>
+                        <span id="progress-subject-3">0%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Fourth Ad Placement -->
+        <div class="ad-container">
+            <div id="ad-container-4">
+                <script>
+                    googletag.cmd.push(function() {
+                        googletag.defineSlot('ca-app-pub-4615523830375296/5427010128', [320, 50], 'ad-container-4').addService(googletag.pubads());
+                    });
+                </script>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Function to generate dates from today to November 15th
+        function generateDateRange() {
+            const today = new Date();
+            const endDate = new Date(today.getFullYear(), 10, 15); // November is month 10 (0-indexed)
+            
+            const dates = [];
+            let currentDate = new Date(today);
+            
+            while (currentDate <= endDate) {
+                dates.push(new Date(currentDate));
+                currentDate.setDate(currentDate.getDate() + 1);
+            }
+            
+            return dates;
+        }
+        
+        // Function to format date as string
+        function formatDate(date) {
+            const options = { month: 'short', day: 'numeric' };
+            return date.toLocaleDateString('en-US', options);
+        }
+        
+        // Function to get day name
+        function getDayName(date) {
+            const options = { weekday: 'short' };
+            return date.toLocaleDateString('en-US', options);
+        }
+        
+        // Function to check if a date is today
+        function isToday(date) {
+            const today = new Date();
+            return date.getDate() === today.getDate() && 
+                   date.getMonth() === today.getMonth() && 
+                   date.getFullYear() === today.getFullYear();
+        }
+        
+        // Function to generate calendar rows
+        function generateCalendar() {
+            const dates = generateDateRange();
+            const calendarBody = document.getElementById('calendar-body');
+            calendarBody.innerHTML = '';
+            
+            dates.forEach(date => {
+                const row = document.createElement('tr');
+                
+                // Add today class if the date is today
+                if (isToday(date)) {
+                    row.classList.add('today');
+                }
+                
+                row.innerHTML = `
+                    <td class="date-cell">${formatDate(date)}</td>
+                    <td class="day-cell">${getDayName(date)}</td>
+                    <td class="checkbox-cell">
+                        <input type="checkbox" class="subject-checkbox" data-subject="1">
+                    </td>
+                    <td class="checkbox-cell">
+                        <input type="checkbox" class="subject-checkbox" data-subject="2">
+                    </td>
+                    <td class="checkbox-cell">
+                        <input type="checkbox" class="subject-checkbox" data-subject="3">
+                    </td>
+                `;
+                
+                calendarBody.appendChild(row);
+            });
+            
+            // Add event listeners to checkboxes
+            document.querySelectorAll('.subject-checkbox').forEach(checkbox => {
+                checkbox.addEventListener('change', updateProgress);
+            });
+            
+            // Load saved progress from localStorage
+            loadProgress();
+        }
+        
+        // Function to update progress bars
+        function updateProgress() {
+            const checkboxes = document.querySelectorAll('.subject-checkbox');
+            const totalDays = document.querySelectorAll('tbody tr').length;
+            
+            // Count completed days for each subject
+            let completedDays1 = 0;
+            let completedDays2 = 0;
+            let completedDays3 = 0;
+            
+            checkboxes.forEach(checkbox => {
+                if (checkbox.checked) {
+                    const subject = checkbox.getAttribute('data-subject');
+                    if (subject === '1') completedDays1++;
+                    if (subject === '2') completedDays2++;
+                    if (subject === '3') completedDays3++;
+                }
+            });
+            
+            // Calculate percentages
+            const percentage1 = Math.round((completedDays1 / totalDays) * 100);
+            const percentage2 = Math.round((completedDays2 / totalDays) * 100);
+            const percentage3 = Math.round((completedDays3 / totalDays) * 100);
+            
+            // Update progress bars
+            document.querySelector('.subject-1 .progress-fill').style.width = `${percentage1}%`;
+            document.querySelector('.subject-2 .progress-fill').style.width = `${percentage2}%`;
+            document.querySelector('.subject-3 .progress-fill').style.width = `${percentage3}%`;
+            
+            // Update progress labels
+            document.getElementById('progress-subject-1').textContent = `${percentage1}%`;
+            document.getElementById('progress-subject-2').textContent = `${percentage2}%`;
+            document.getElementById('progress-subject-3').textContent = `${percentage3}%`;
+            
+            // Save progress to localStorage
+            saveProgress();
+        }
+        
+        // Function to save progress to localStorage
+        function saveProgress() {
+            const checkboxes = document.querySelectorAll('.subject-checkbox');
+            const progress = [];
+            
+            checkboxes.forEach(checkbox => {
+                progress.push({
+                    subject: checkbox.getAttribute('data-subject'),
+                    checked: checkbox.checked
+                });
+            });
+            
+            localStorage.setItem('studyProgress', JSON.stringify(progress));
+        }
+        
+        // Function to load progress from localStorage
+        function loadProgress() {
+            const savedProgress = localStorage.getItem('studyProgress');
+            
+            if (savedProgress) {
+                const progress = JSON.parse(savedProgress);
+                const checkboxes = document.querySelectorAll('.subject-checkbox');
+                
+                checkboxes.forEach((checkbox, index) => {
+                    if (progress[index] && progress[index].checked) {
+                        checkbox.checked = true;
+                    }
+                });
+                
+                updateProgress();
+            }
+        }
+        
+        // Function to toggle subject units display
+        function toggleSubjectUnits(subjectId) {
+            const unitsContainer = document.getElementById(`units-container-${subjectId}`);
+            const allContainers = document.querySelectorAll('.units-container');
+            
+            // Hide all units containers
+            allContainers.forEach(container => {
+                if (container.id !== `units-container-${subjectId}`) {
+                    container.style.display = 'none';
+                }
+            });
+            
+            // Toggle the selected container
+            if (unitsContainer.style.display === 'block') {
+                unitsContainer.style.display = 'none';
+            } else {
+                unitsContainer.style.display = 'block';
+            }
+        }
+        
+        // Function to toggle unit content
+        function toggleUnitContent(unitElement) {
+            const content = unitElement.querySelector('.unit-content');
+            const toggleSpan = unitElement.querySelector('.unit-title span');
+            
+            if (content.style.display === 'block') {
+                content.style.display = 'none';
+                toggleSpan.textContent = '+';
+            } else {
+                content.style.display = 'block';
+                toggleSpan.textContent = '-';
+            }
+        }
+        
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', function() {
+            generateCalendar();
+            
+            // Add event listeners to subject cards
+            document.querySelectorAll('.subject-card').forEach(card => {
+                card.addEventListener('click', function() {
+                    const subjectId = this.getAttribute('data-subject');
+                    toggleSubjectUnits(subjectId);
+                });
+            });
+            
+            // Add event listeners to units
+            document.querySelectorAll('.unit').forEach(unit => {
+                unit.addEventListener('click', function() {
+                    toggleUnitContent(this);
+                });
+            });
+            
+            // Add event listeners to update buttons
+            document.querySelectorAll('.update-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    alert('Study materials updated successfully!');
+                });
+            });
+        });
+    </script>
+</body>
+</html>
